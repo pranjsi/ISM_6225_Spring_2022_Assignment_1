@@ -5,6 +5,7 @@ WRITE YOUR CODE IN THE RESPECTIVE FUNCTION BLOCK
 
 */
 using System;
+using System.Collections.Generic;
 
 namespace DIS_Assignmnet1_SPRING_2022
 {
@@ -15,13 +16,20 @@ namespace DIS_Assignmnet1_SPRING_2022
             //Question 1
             Console.WriteLine("Q1: Enter the string:");
             string s = Console.ReadLine();
-            string final_string = RemoveVowels(s);
-            Console.WriteLine("Final string after removing the Vowels: {0}",final_string);
-            Console.WriteLine();
+            if (s.Length >= 0 & s.Length <= 10000)
+            {
+                string final_string = RemoveVowels(s);
+                Console.WriteLine("Final string after removing the Vowels: {0}", final_string);
+                Console.WriteLine();
+            }
+            else
+            {
+                Console.WriteLine("String length should be between 0 and 10000");
+            }
 
             //Question 2:
-            string[] bulls_string1 = new string[]{"Marshall", "Student","Center"};
-            string[] bulls_string2 = new string[]{"MarshallStudent", "Center"};
+            string[] bulls_string1 = new string[] { "Marshall", "Student", "Center" };
+            string[] bulls_string2 = new string[] { "MarshallStudent", "Center" };
             bool flag = ArrayStringsAreEqual(bulls_string1, bulls_string2);
             Console.WriteLine("Q2");
             if (flag)
@@ -59,7 +67,7 @@ namespace DIS_Assignmnet1_SPRING_2022
 
             //Quesiton 6:
             string bulls_string6 = "mumacollegeofbusiness";
-            char ch ='c';
+            char ch = 'c';
             string reversed_string = ReversePrefix(bulls_string6, ch);
             Console.WriteLine("Q6:");
             Console.WriteLine("Resultant string are reversing the prefix:{0}", reversed_string);
@@ -89,8 +97,19 @@ namespace DIS_Assignmnet1_SPRING_2022
         {
             try
             {
-                // write your code here
-                String final_string ="";
+                String final_string = "";
+                for (int i = 0; i < s.Length; i++)
+                {
+                    /* setting condition to check if string s has these characters in small or upper case*/
+                    if (s[i] == 'a' || s[i] == 'e' || s[i] == 'i' || s[i] == 'o' || s[i] == 'u' || s[i] == 'A' || s[i] == 'E' || s[i] == 'I' || s[i] == 'O' || s[i] == 'U')
+                    {
+
+                    }
+                    else
+                    {
+                        final_string = final_string + s[i];
+                    }
+                }
                 return final_string;
             }
             catch (Exception)
@@ -125,12 +144,30 @@ namespace DIS_Assignmnet1_SPRING_2022
         {
             try
             {
-                // write your code here.
-                return false;
+                /* Defining two new string variable to store and compare inputs*/
+                string a = "";
+                string b = "";
+                // Using for loop to test the length of the string to count characters.//
+                for (int i = 0; i < bulls_string1.Length; i++)
+                {
+                    a = a + bulls_string1[i];
+                }
+                for (int i = 0; i < bulls_string2.Length; i++)
+                {
+                    b = b + bulls_string2;
+                }
+                // stored string lengths in two variables and now comparing the string legth//   
+                if (a == b)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch (Exception)
             {
-
                 throw;
             }
 
@@ -159,6 +196,24 @@ namespace DIS_Assignmnet1_SPRING_2022
             try
             {
                 // write your code here
+                //Used array to count the number of ocurrence of each number, then added the unique numbers to the result//
+                if (bull_bucks == null || bull_bucks.Length == 0)
+                    return 0;
+
+                int[] arr = new int[100];
+                foreach (int num in bull_bucks)
+                {
+                    arr[num - 1]++;
+                }
+
+                int sum = 0;
+                for (int i = 0; i < arr.Length; i++)//loop to find the unique elements//
+                {
+                    if (arr[i] == 1)//if found true then the sum will be displayed//
+                        sum += i + 1;
+                }
+
+                return sum;
                 return 0;
 
             }
@@ -192,7 +247,22 @@ namespace DIS_Assignmnet1_SPRING_2022
         {
             try
             {
-                // write your code here.
+                int i = 0;
+                int j = bulls_grid.GetLength(0) - 1;
+                int diagSum = 0;
+                //Used while loop to travesrse the 2d array// 
+                while (j >= 0)
+                {
+                    diagSum += bulls_grid[i, i];//this is to add the main diagonal elements to the final sum//
+                    if (i != j)//this is to avoid adding the main diagonal elements again while traversing through the secondary diagonal//
+                    {
+                        diagSum += bulls_grid[j, i]; //This is to add the remaining secondary diagonals elements//
+                    }
+                    j--;
+                    i++;
+                }
+
+                return diagSum;
 
                 return 0;
             }
@@ -224,9 +294,16 @@ namespace DIS_Assignmnet1_SPRING_2022
         {
             try
             {
-                // write your code here.
-                return "null";
+                char[] A = bulls_string.ToCharArray();//New variable to store results//
+                for (int i = 0; i < indices.Length; i++)//for loop is used to scan through the string//
+                {
+                    A[indices[i]] = bulls_string[i];//condition to identify stopping point for the loop which also ascts as the shuffle point//
+                }
+                string A_str = new string(A);//shuffling//
+                return A_str;
             }
+
+
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
@@ -264,7 +341,22 @@ namespace DIS_Assignmnet1_SPRING_2022
         {
             try
             {
-                String prefix_string ="";
+                var letters = bulls_string6.ToCharArray();
+                for (int i = 0; i < letters.Length; i++)// for loop to identify the 'ch' character//
+                {
+                    if (letters[i] == ch)//loop stops at the index where the character ch is found//
+                    {
+                        for (int j = 0; j <= i / 2; j++)//this loop will run only on half of the string where the previous loop stopped//
+                        {
+                            var t = letters[j];
+                            letters[j] = letters[i - j];
+                            letters[i - j] = t;//reversing the identified parts in order to get the desired results//
+                        }
+                        return new string(letters);
+                    }
+                }
+                return bulls_string6;
+                string prefix_string = "";
                 return prefix_string;
             }
             catch (Exception)
